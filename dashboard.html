@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bankist Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="light-mode">
+  <div id="globalToast" class="toast hidden"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-toggle" id="sidebarToggleBtn">
+      <i class="fas fa-bars"></i>
+    </div>
+    <h2 class="sidebar-title">Bankist</h2>
+
+    <div class="sidebar-link active" data-section="home"><i class="fas fa-home"></i> <span class="link-text">Home</span></div>
+    <div class="sidebar-link" data-section="balance"><i class="fas fa-wallet"></i> <span class="link-text">Balance</span></div>
+    <div class="sidebar-link" data-section="statements"><i class="fas fa-file-alt"></i> <span class="link-text">Statements</span></div>
+    <div class="sidebar-link" data-section="transfer"><i class="fas fa-paper-plane"></i> <span class="link-text">Transfer</span></div>
+    <div class="sidebar-link" data-section="settings"><i class="fas fa-cog"></i> <span class="link-text">Settings</span></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Topbar -->
+    <div class="topbar">
+      <span id="clock"></span>
+      <div class="topbar-icons">
+        <span class="notif">
+          <i class="fas fa-bell"></i>
+          <span class="badge" id="notifBadge">3</span>
+        </span>
+        <button id="themeToggleBtn"><i class="fas fa-adjust"></i></button>
+
+        <div class="user-info profile-dropdown" id="profileDropdown">
+          <img id="profilePhoto" src="" alt="Profile" />
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="#" id="profileMenu"><i class="fas fa-user"></i> Profile</a>
+            <a href="#" id="helpMenu"><i class="fas fa-question-circle"></i> Help</a>
+            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+          <span id="welcome-message">Welcome</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+      <div class="section" id="homeSection">
+        <div class="grid-container">
+          <div class="card user-card">
+            <h3 id="greetingTitle">Hi, Rajib!</h3>
+            <p>Wishing You A Great Day Ahead</p>
+            <p>Designation: Backend Developer</p>
+            <p>Department: Banking</p>
+            <p>Contact: +91 8144221511</p>
+            <p>Email: rajibrajraymohapatra@gmail.com</p>
+            <div class="avatar">B</div>
+            <div id="dailyQuote"></div>
+          </div>
+
+          <div class="card summary-card">
+            <h3>Account Summary</h3>
+            <div class="summary-boxes">
+              <div class="summary-box">
+                <div class="summary-value" id="sentAmount">₹0.00</div>
+                <div class="summary-label">Money Sent</div>
+              </div>
+              <div class="summary-box">
+                <div class="summary-value" id="receivedAmount">₹0.00</div>
+                <div class="summary-label">Money Received</div>
+              </div>
+              <div class="summary-box">
+                <div class="summary-value" id="totalBalance">₹0.00</div>
+                <div class="summary-label">Total Balance</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card tag-card">
+            <h3>Status</h3>
+            <div class="tag-list">
+              <span class="tag">Pending KYC</span>
+              <span class="tag">Failed Txn</span>
+              <span class="tag">New Alert</span>
+              <span class="tag">Statement</span>
+              <span class="tag">Verified</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Balance -->
+      <div class="section" id="balanceSection" style="display: none;">
+        <div class="card">
+          <h3>Current Balance</h3>
+          <p id="balance">₹0.00</p>
+        </div>
+      </div>
+
+      <!-- Statements -->
+      <div class="section" id="statementsSection" style="display: none;">
+        <div class="card">
+          <h3>Search Transactions</h3>
+          <input type="text" id="searchInput" placeholder="Search by user name"/>
+          <input type="month" id="monthFilter" />
+          <input type="date" id="dateFilter" />
+          <ul id="transactionsList"></ul>
+          <button class="btn" id="downloadPdfBtn">
+            <i class="fas fa-file-download"></i> Download PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Transfer -->
+      <div class="section" id="transferSection" style="display: none;">
+        <div class="card">
+          <h3>Transfer Funds</h3>
+          <input type="text" id="toUsername" placeholder="Recipient Username" required />
+          <input type="number" id="transferAmount" placeholder="Amount" required />
+          <button class="btn" id="sendOtpBtn">Send OTP</button>
+          <div id="otpTransferContainer" style="display: none;">
+            <input type="text" id="otpCodeInput" placeholder="Enter OTP" />
+            <button class="btn" id="verifyOtpTransferBtn">Verify & Transfer</button>
+          </div>
+          <p id="transferMsg"></p>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="section" id="settingsSection" style="display: none;">
+        <div class="card">
+          <h3>Reset Password</h3>
+          <input type="password" id="currentPassword" placeholder="Current Password" />
+          <input type="password" id="newPassword" placeholder="New Password" />
+          <input type="password" id="confirmPassword" placeholder="Confirm New Password" />
+          <button class="btn" id="resetPasswordBtn">Reset Password</button>
+          <p id="resetMessage"></p>
+        </div>
+
+        <div class="card">
+          <h3>Update Profile</h3>
+          <form id="profileForm">
+            <input type="file" name="photo" accept="image/*" />
+            <input type="text" name="first_name" placeholder="First Name" required />
+            <input type="text" name="middle_name" placeholder="Middle Name" />
+            <input type="text" name="last_name" placeholder="Last Name" required />
+            <input type="text" name="pan_number" placeholder="PAN Number" required />
+            <input type="text" name="aadhaar_number" placeholder="Aadhaar Number" required />
+            <input type="text" name="address_lane1" placeholder="Address Lane 1" required />
+            <input type="text" name="pin_code" placeholder="PIN Code" required />
+            <select name="state" id="stateSelect" required>
+              <option value="">Select State</option>
+            </select>
+            <select name="district" id="districtSelect" required>
+              <option value="">Select District</option>
+            </select>
+            <select name="gender" required>
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            <button class="btn" type="submit">Save Profile</button>
+            <p id="profileSaveMsg"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn" id="closeProfileModal">&times;</span>
+      <h2>Your Profile</h2>
+      <img id="modalPhoto" src="" alt="Profile Photo" class="modal-photo" />
+      <p><strong>First Name:</strong> <span id="modalFirstName"></span></p>
+      <p><strong>Last Name:</strong> <span id="modalLastName"></span></p>
+      <p><strong>PAN Number:</strong> <span id="modalPan"></span></p>
+      <p><strong>Aadhaar Number:</strong> <span id="modalAadhaar"></span></p>
+      <p><strong>Address:</strong> <span id="modalAddress"></span></p>
+      <p><strong>Pincode:</strong> <span id="modalPincode"></span></p>
+      <p><strong>State:</strong> <span id="modalState"></span></p>
+      <p><strong>District:</strong> <span id="modalDistrict"></span></p>
+      <p><strong>Gender:</strong> <span id="modalGender"></span></p>
+    </div>
+  </div>
+
+
+  <script src="dashboard.js"></script>
+  <script>
+    const profilePhoto = document.getElementById('profilePhoto');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    profilePhoto.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle('show');
+    });
+
+    window.addEventListener('click', (e) => {
+      if (!profileDropdown.contains(e.target)) {
+        dropdownMenu.classList.remove('show');
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+      window.location.href = 'bankist.html';
+    });
+
+    document.getElementById('profileMenu').addEventListener('click', () => {
+      showToast('👤 Profile section is under development.');
+    });
+
+    document.getElementById('helpMenu').addEventListener('click', () => {
+      showToast('❓ Help section coming soon.');
+    });
+  </script>
+</body>
+</html>
