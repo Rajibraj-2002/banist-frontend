@@ -1,16 +1,17 @@
 "use strict";
 
 // === API URLs ===
-const API_BASE = 'http://localhost:8000/api/dashboard/summary/';
-const DOWNLOAD_URL = 'http://localhost:8000/api/download-statements/';
-const REFRESH_URL = 'http://localhost:8000/api/token/refresh/';
-const LOGOUT_URL = 'http://localhost:8000/api/logout/';
-const RESET_PASSWORD_URL = 'http://localhost:8000/api/reset-password/';
-const SAVE_PROFILE_URL = 'http://localhost:8000/api/save-profile/';
-const SEND_OTP_URL = 'http://localhost:8000/api/send-otp/';
-const VERIFY_OTP_URL = 'http://localhost:8000/api/verify-otp/';
-const MAKE_TX_URL = 'http://localhost:8000/api/make_transaction/';
-const USER_PROFILE_URL = 'http://localhost:8000/api/dashboard/summary/';
+const API_BASE = 'https://banist-backend.onrender.com/api/dashboard/summary/';
+const DOWNLOAD_URL = 'https://banist-backend.onrender.com/api/download-statements/';
+const REFRESH_URL = 'https://banist-backend.onrender.com/api/token/refresh/';
+const LOGOUT_URL = 'https://banist-backend.onrender.com/api/logout/';
+const RESET_PASSWORD_URL = 'https://banist-backend.onrender.com/api/reset-password/';
+const SAVE_PROFILE_URL = 'https://banist-backend.onrender.com/api/save-profile/';
+const SEND_OTP_URL = 'https://banist-backend.onrender.com/api/send-otp/';
+const VERIFY_OTP_URL = 'https://banist-backend.onrender.com/api/verify-otp/';
+const MAKE_TX_URL = 'https://banist-backend.onrender.com/api/make_transaction/';
+const USER_PROFILE_URL = 'https://banist-backend.onrender.com/api/dashboard/summary/';
+
 
 // === DOM Elements ===
 const welcomeEl = document.getElementById('welcome-message');
@@ -630,7 +631,7 @@ document.getElementById('profileMenu').addEventListener('click', async () => {
   if (!access) return alert('Unauthorized');
 
   try {
-    const res = await fetch('http://localhost:8000/api/dashboard/summary/', {
+    const res = await fetch('https://banist-backend.onrender.com/api/dashboard/summary/', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${access}`
