@@ -296,7 +296,7 @@ slider();
 
 'use strict';
 
-const API_BASE = 'http://localhost:8000/api/';
+const API_BASE = 'https://banist-backend.onrender.com/api/';
 const signupModal = document.getElementById('signup-modal');
 const loginModal = document.getElementById('login-modal');
 // const overlay = document.querySelector('.overlay');
